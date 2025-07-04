@@ -35,4 +35,25 @@ test.describe('Reqres API Tests', () => {
     expect(responseBody.name).toBe(userData.name);
     expect(responseBody.job).toBe(userData.job);
   });
+
+  test('Create a user and then update it', async () => {
+    // Step 1: Create a new user
+    const newUser = generateUser();
+    const createResponse = await api.post('/api/users', newUser);
+    expect(createResponse.status()).toBe(201);
+
+    const createdUser = await createResponse.json();
+    expect(createdUser).toHaveProperty('id');
+    console.log('Created user ID:', createdUser.id);
+
+    // Step 2: Update the same user
+    const updatedUser = generateUser(); // new fake data
+    const updateResponse = await api.put(`/api/users/${createdUser.id}`, updatedUser);
+    expect(updateResponse.status()).toBe(200);
+
+    const updatedBody = await updateResponse.json();
+    expect(updatedBody.name).toBe(updatedUser.name);
+    expect(updatedBody.job).toBe(updatedUser.job);
+    expect(updatedBody).toHaveProperty('updatedAt');
+  });
 });
