@@ -50,6 +50,17 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
 
+    {
+  name: 'API Tests',
+  testMatch: /.*\.api\.spec\.ts/,
+  use: {
+    baseURL: process.env.API_URL,
+    extraHTTPHeaders: {
+      Authorization: `Bearer ${process.env.X_API_KEY}`
+    }
+  }
+}
+
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',
