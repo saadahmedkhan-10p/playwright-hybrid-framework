@@ -3,6 +3,8 @@ import { LoginPage } from '../../../pages/LoginPage';
 import { ProductPage } from '../../../pages/ProductPage';
 import { CartPage } from '../../../pages/CartPage';
 import { CheckoutPage } from '../../../pages/CheckoutPage';
+import { generateTestUser } from '../../../helpers/generateTestUser';
+import { WebAssertions } from '../../../utils/web/assertions';
 
 test.describe('📱 Mobile Checkout Flow on SauceDemo', () => {
   let loginPage: LoginPage;
@@ -35,10 +37,7 @@ test.describe('📱 Mobile Checkout Flow on SauceDemo', () => {
       await cartPage.proceedToCheckout();
     });
 
-    const timestamp = Date.now();
-    const firstName = `Jane${timestamp}`;
-    const lastName = `Doe${timestamp}`;
-    const postalCode = `${Math.floor(10000 + Math.random() * 90000)}`;
+    const { firstName, lastName, postalCode } = generateTestUser();
 
     await test.step('Enter checkout information', async () => {
       await checkoutPage.fillShippingInfo(firstName, lastName, postalCode);
@@ -49,7 +48,7 @@ test.describe('📱 Mobile Checkout Flow on SauceDemo', () => {
       await checkoutPage.clickFinish();
 
       const confirmationMessage = await checkoutPage.getOrderConfirmationMessage();
-      expect(confirmationMessage).toBe('Thank you for your order!');
+      expect(confirmationMessage).toBe(WebAssertions.thankyouMsg);
 
       // Screenshot after success
       await page.screenshot({ path: 'screenshots/mobile-confirmation.png', fullPage: true });

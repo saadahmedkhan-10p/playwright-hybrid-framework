@@ -27,7 +27,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-     baseURL:  process.env.BASE_URL,
+     baseURL:  process.env.BASE_URL ?? (() => { throw new Error("BASE_URL not set") })(),
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -37,11 +37,13 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      testMatch: /.*\.web\.spec\.ts/,
       use: { ...devices['Desktop Chrome'] },
     },
 
     {
       name: 'firefox',
+      testMatch: /.*\.web\.spec\.ts/,
       use: { ...devices['Desktop Firefox'] },
     },
 
@@ -64,6 +66,7 @@ export default defineConfig({
     /* Test against mobile viewports. */
      {
        name: 'Mobile Chrome',
+       testMatch: /.*\.mobile\.spec\.ts/,
        use: { ...devices['Pixel 5'] },
      },
     // {
