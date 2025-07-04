@@ -12,6 +12,11 @@ jobs:
     name: Run Playwright Tests
     runs-on: ubuntu-latest
 
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+      API_URL: ${{ secrets.API_URL }}
+      X_API_KEY: ${{ secrets.X_API_KEY }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
