@@ -10,7 +10,6 @@
     "test:api": "npx playwright test --project=\"API Tests\"",
     "test:web": "npx playwright test --project=chromium --project=firefox",
     "test:mobile": "npx playwright test --project=\"Mobile Chrome\""
-    ,"auth:generate": "node scripts/generateAuthState.js"
   },
   "keywords": [],
   "author": "",
