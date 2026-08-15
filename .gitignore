@@ -7,6 +7,11 @@ node_modules/
 /playwright/.cache/
 .env
 .vscode/
-allureports/
+allure-report/
+allure-results/
+test-examples/
 test-examples/
 screenshots/
+scripts/
+/tests/.auth/
+/.auth/
