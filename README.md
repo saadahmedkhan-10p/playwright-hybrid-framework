@@ -2,7 +2,9 @@
 npx playwright test tests/web/user.web.spec.ts --project=chromium   
 
 #Generate  Allure report
-allure serve allure-results  
+npm run allure:generate
+npm run allure:open
+#allure serve allure-results  
 
 #Mobile Execution headed
 npx playwright test --project="Mobile Chrome" --headed

@@ -13,6 +13,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
+  globalSetup: require.resolve('./tests/global.setup'),
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -38,13 +39,19 @@ export default defineConfig({
     {
       name: 'chromium',
       testMatch: /.*\.web\.spec\.ts/,
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'tests/.auth/user.json',
+      },
     },
 
     {
       name: 'firefox',
       testMatch: /.*\.web\.spec\.ts/,
-      use: { ...devices['Desktop Firefox'] },
+      use: {
+        ...devices['Desktop Firefox'],
+        storageState: 'tests/.auth/user.json',
+      },
     },
 
     {
@@ -67,7 +74,10 @@ export default defineConfig({
      {
        name: 'Mobile Chrome',
        testMatch: /.*\.mobile\.spec\.ts/,
-       use: { ...devices['Pixel 5'] },
+       use: {
+         ...devices['Pixel 5'],
+         storageState: 'tests/.auth/user.json',
+       },
      },
     // {
     //   name: 'Mobile Safari',
