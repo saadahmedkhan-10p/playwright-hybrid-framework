@@ -1,25 +1,25 @@
 
-import { test, expect } from '@playwright/test';
 import { ProductPage } from '../../pages/ProductPage';
 import { CartPage } from '../../pages/CartPage';
 import { CheckoutPage } from '../../pages/CheckoutPage';
+import { test, expect } from  '../../tests/fixtures';
 import { generateTestUser } from '../../helpers/generateTestUser';
 import { WebAssertions } from '../../utils/web/assertions';
 
 test.describe('Sauce Demo Checkout Flow', () => {
-  let productPage: ProductPage;
-  let cartPage: CartPage;
-  let checkoutPage: CheckoutPage;
+  let productPage;
+  let cartPage;
+  let checkoutPage;
 
   test.beforeEach(async ({ page }) => {
-    productPage = new ProductPage(page);
-    cartPage = new CartPage(page);
-    checkoutPage = new CheckoutPage(page);
-
     await page.goto('/inventory.html');
   });
 
-  test('[Smoke] Complete purchase flow', async ({ page }) => {
+  test('[Smoke] Complete purchase flow', async ({ pageManager }) => {
+    productPage = pageManager.productPageInstance();
+    cartPage = pageManager.cartPageInstance();
+    checkoutPage = pageManager.checkoutPageInstance();
+
     await productPage.addBackpackToCart();
     await productPage.openCart();
     await cartPage.proceedToCheckout();
