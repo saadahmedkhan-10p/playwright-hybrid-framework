@@ -29,5 +29,6 @@ test.describe('Sauce Demo Checkout Flow', () => {
 
     const confirmationMessage = await checkoutPage.getOrderConfirmationMessage();
     expect(confirmationMessage).toBe(WebAssertions.thankyouMsg);
+    
   });
 });
