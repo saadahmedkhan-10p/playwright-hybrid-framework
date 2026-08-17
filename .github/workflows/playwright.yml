@@ -39,14 +39,28 @@ jobs:
         with:
           name: allure-results
           path: allure-results
+          if-no-files-found: ignore
+
+      - name: Prepare Allure Report
+        if: always()
+        run: |
+          mkdir -p allure-report
+          if [ ! -d "allure-results" ]; then
+            cat > allure-report/index.html <<'HTML'
+            <html>
+              <body>
+                <h1>No Allure results generated</h1>
+                <p>Playwright tests did not produce any results for this run.</p>
+              </body>
+            </html>
+            HTML
+          fi
 
       - name: Generate Allure Report
         if: always()
         run: |
           if [ -d "allure-results" ]; then
-            npm run allure:generate
-          else
-            echo "No allure-results directory found."
+            npm run allure:generate || true
           fi
 
       - name: Upload Allure Report
@@ -55,6 +69,7 @@ jobs:
         with:
           name: allure-report
           path: allure-report
+          if-no-files-found: error
 
   deploy:
     needs: test
