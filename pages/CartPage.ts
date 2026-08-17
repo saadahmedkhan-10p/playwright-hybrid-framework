@@ -1,14 +1,15 @@
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class CartPage extends BasePage {
-  private checkoutButton = '[data-test="checkout"]';
+  readonly checkoutButton: Locator;
 
   constructor(page: Page) {
     super(page);
+    this.checkoutButton = page.getByRole('button', { name: 'Checkout' });
   }
 
   async proceedToCheckout(): Promise<void> {
-    await this.page.click(this.checkoutButton);
+    await this.checkoutButton.click();
   }
 }

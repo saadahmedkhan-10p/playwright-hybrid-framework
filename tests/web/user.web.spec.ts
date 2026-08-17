@@ -1,7 +1,4 @@
 
-import { ProductPage } from '../../pages/ProductPage';
-import { CartPage } from '../../pages/CartPage';
-import { CheckoutPage } from '../../pages/CheckoutPage';
 import { test, expect } from  '../../tests/fixtures';
 import { generateTestUser } from '../../helpers/generateTestUser';
 import { WebAssertions } from '../../utils/web/assertions';

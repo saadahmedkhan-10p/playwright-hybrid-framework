@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 
 export class BasePage {
   protected page: Page;
@@ -11,7 +11,7 @@ export class BasePage {
     await this.page.goto(url);
   }
 
-  async getTextContent(selector: string): Promise<string | null> {
-    return await this.page.textContent(selector);
+  async getTextContent(locator: Locator): Promise<string | null> {
+    return await locator.textContent();
   }
 }
