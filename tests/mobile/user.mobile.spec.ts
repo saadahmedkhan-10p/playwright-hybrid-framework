@@ -1,5 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../pages/LoginPage';
+import { test, expect } from '../fixtures';
 import { ProductPage } from '../../pages/ProductPage';
 import { CartPage } from '../../pages/CartPage';
 import { CheckoutPage } from '../../pages/CheckoutPage';
@@ -7,27 +6,13 @@ import { generateTestUser } from '../../helpers/generateTestUser';
 import { WebAssertions } from '../../utils/web/assertions';
 
 test.describe('Mobile Checkout Flow on SauceDemo', () => {
-  let loginPage: LoginPage;
-  let productPage: ProductPage;
-  let cartPage: CartPage;
-  let checkoutPage: CheckoutPage;
+  test('Complete purchase on mobile', async ({ page, pageManager }) => {
+    const productPage: ProductPage = pageManager.productPageInstance();
+    const cartPage: CartPage = pageManager.cartPageInstance();
+    const checkoutPage: CheckoutPage = pageManager.checkoutPageInstance();
 
-  test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    productPage = new ProductPage(page);
-    cartPage = new CartPage(page);
-    checkoutPage = new CheckoutPage(page);
-
-    await test.step('Navigate to login page', async () => {
-      await loginPage.navigateTo('/');
-      await expect(page).toHaveURL(/saucedemo/);
-      await page.screenshot({ path: 'screenshots/mobile-login.png', fullPage: true });
-    });
-  });
-
-  test('Complete purchase on mobile', async ({ page }) => {
-    await test.step('Login with valid user', async () => {
-      await loginPage.login('standard_user', 'secret_sauce');
+    await test.step('Open authenticated inventory', async () => {
+      await page.goto('/inventory.html');
       await expect(page).toHaveURL(/inventory/);
     });
 

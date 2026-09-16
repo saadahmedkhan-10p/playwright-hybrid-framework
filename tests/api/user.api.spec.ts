@@ -1,32 +1,20 @@
-import { test, expect } from '@playwright/test';
-import { APIUtils } from '../../utils/web/api/APIUtils';
-import { generateUser } from '../../utils/web/api/ApiUserData';
+import { test, expect } from '../fixtures';
+import { generateUser } from '../../utils/api/ApiUserData';
 
 test.describe('Reqres API Tests', () => {
-  let api: APIUtils;
-
-  test.beforeAll(async () => {
-    api = new APIUtils();
-    await api.init(process.env.API_URL!, process.env.X_API_KEY);
-  });
-
-  test.afterAll(async () => {
-    await api.dispose();
-  });
-
-  test('GET list of users', async () => {
-    const response = await api.get('/api/users?page=2');
+  test('GET list of users', async ({ apiClient }) => {
+    const response = await apiClient.get('/api/users?page=2');
     expect(response.status()).toBe(200);
 
     const data = await response.json();
     expect(data.data.length).toBeGreaterThan(0);
   });
 
-  test('POST create a new user', async () => {
+  test('POST create a new user', async ({ apiClient }) => {
     
     const userData = generateUser();
     
-    const response = await api.post('/api/users', userData);
+    const response = await apiClient.post('/api/users', userData);
     expect(response.status()).toBe(201);
 
     const responseBody = await response.json();
@@ -36,19 +24,16 @@ test.describe('Reqres API Tests', () => {
     expect(responseBody.job).toBe(userData.job);
   });
 
-  test('Create a user and then update it', async () => {
-    // Step 1: Create a new user
+  test('Create a user and then update it', async ({ apiClient }) => {
     const newUser = generateUser();
-    const createResponse = await api.post('/api/users', newUser);
+    const createResponse = await apiClient.post('/api/users', newUser);
     expect(createResponse.status()).toBe(201);
 
     const createdUser = await createResponse.json();
     expect(createdUser).toHaveProperty('id');
-    console.log('Created user ID:', createdUser.id);
 
-    // Step 2: Update the same user
-    const updatedUser = generateUser(); // new fake data
-    const updateResponse = await api.put(`/api/users/${createdUser.id}`, updatedUser);
+    const updatedUser = generateUser();
+    const updateResponse = await apiClient.put(`/api/users/${createdUser.id}`, updatedUser);
     expect(updateResponse.status()).toBe(200);
 
     const updatedBody = await updateResponse.json();

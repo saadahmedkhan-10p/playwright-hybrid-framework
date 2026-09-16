@@ -56,17 +56,18 @@ export default defineConfig({
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      testMatch: /.*\.web\.spec\.ts/,
+      use: {
+        ...devices['Desktop Safari'],
+        storageState: 'tests/.auth/user.json',
+      },
     },
 
     {
   name: 'API Tests',
   testMatch: /.*\.api\.spec\.ts/,
   use: {
-    baseURL: process.env.API_URL,
-    extraHTTPHeaders: {
-      Authorization: `Bearer ${process.env.X_API_KEY}`
-    }
+    baseURL: process.env.API_URL
   }
 },
 

@@ -1,4 +1,4 @@
-import { request, APIRequestContext } from '@playwright/test';
+import { APIRequestContext, request } from '@playwright/test';
 
 export class APIUtils {
   private apiContext!: APIRequestContext;
@@ -9,7 +9,7 @@ export class APIUtils {
 
     this.apiContext = await request.newContext({
       baseURL,
-      extraHTTPHeaders: headers
+      extraHTTPHeaders: headers,
     });
   }
 
@@ -17,11 +17,11 @@ export class APIUtils {
     return await this.apiContext.get(path);
   }
 
-  async post(path: string, body: any) {
+  async post(path: string, body: unknown) {
     return await this.apiContext.post(path, { data: body });
   }
 
-  async put(path: string, body: any) {
+  async put(path: string, body: unknown) {
     return await this.apiContext.put(path, { data: body });
   }
 

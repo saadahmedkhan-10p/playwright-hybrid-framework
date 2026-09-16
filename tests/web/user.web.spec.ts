@@ -4,18 +4,14 @@ import { generateTestUser } from '../../helpers/generateTestUser';
 import { WebAssertions } from '../../utils/web/assertions';
 
 test.describe('Sauce Demo Checkout Flow', () => {
-  let productPage;
-  let cartPage;
-  let checkoutPage;
-
   test.beforeEach(async ({ page }) => {
     await page.goto('/inventory.html');
   });
 
   test('[Smoke] Complete purchase flow', async ({ pageManager }) => {
-    productPage = pageManager.productPageInstance();
-    cartPage = pageManager.cartPageInstance();
-    checkoutPage = pageManager.checkoutPageInstance();
+    const productPage = pageManager.productPageInstance();
+    const cartPage = pageManager.cartPageInstance();
+    const checkoutPage = pageManager.checkoutPageInstance();
 
     await productPage.addBackpackToCart();
     await productPage.openCart();
