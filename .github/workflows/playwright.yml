@@ -12,6 +12,33 @@ permissions:
   id-token: write
 
 jobs:
+  smoke:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+
+    steps:
+      - name: Validate required GitHub secrets
+        run: |
+          if [ -z "${BASE_URL}" ]; then echo "BASE_URL secret is missing"; exit 1; fi
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run smoke tests
+        run: npm run test:smoke
+
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest

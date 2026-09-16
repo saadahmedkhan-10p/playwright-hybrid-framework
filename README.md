@@ -35,6 +35,7 @@ The Pixel 5 project is responsive mobile-web testing. It is not native Android o
 npm run test:web
 npm run test:mobile
 npm run test:api
+npm run test:smoke
 npm run test:all
 ```
 
@@ -44,6 +45,8 @@ Run a specific project or list its tests:
 npx playwright test --project=chromium
 npx playwright test --list --project=webkit
 ```
+
+Smoke tests use the `@smoke` tag and run against Chromium with `npm run test:smoke`.
 
 ## Adding tests
 

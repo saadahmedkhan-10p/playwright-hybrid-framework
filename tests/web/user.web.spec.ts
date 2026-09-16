@@ -8,7 +8,7 @@ test.describe('Sauce Demo Checkout Flow', () => {
     await page.goto('/inventory.html');
   });
 
-  test('[Smoke] Complete purchase flow', async ({ pageManager }) => {
+  test('Complete purchase flow @smoke', async ({ pageManager }) => {
     const productPage = pageManager.productPageInstance();
     const cartPage = pageManager.cartPageInstance();
     const checkoutPage = pageManager.checkoutPageInstance();
